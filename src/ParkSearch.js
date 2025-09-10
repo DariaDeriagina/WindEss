@@ -16,7 +16,7 @@ import SearchIcon from "./images/icons/Search.png";
 import JacksonParkImg from "./images/SearchParks/JacksonPark.png";
 import DieppeGardensImg from "./images/SearchParks/DieppeGardens.png";
 import MaldenParkImg from "./images/SearchParks/MaldenPark.png";
-import MicMacParkImg from "./images/SearchParks/MicMacPark.png"; // ensure file name matches exactly
+import MicMacParkImg from "./images/SearchParks/MicMacPark.png";
 import CoventryGardensImg from "./images/SearchParks/CoventryGardensPark.png";
 import GanatchioTrailImg from "./images/SearchParks/GanatchioTrail.png";
 
@@ -164,14 +164,15 @@ export default function ParkSearch() {
 						/>
 					</div>
 
-					{/* Filters */}
+					{/* Filters (all use the same active style) */}
 					<div style={styles.filters}>
 						<button
 							onClick={() => setActiveFilter("waterfront")}
 							style={{
 								...styles.chip,
-								...(activeFilter === "waterfront" && styles.chipActiveTeal),
+								...(activeFilter === "waterfront" && styles.chipActive),
 							}}
+							aria-pressed={activeFilter === "waterfront"}
 						>
 							Waterfront
 						</button>
@@ -179,8 +180,9 @@ export default function ParkSearch() {
 							onClick={() => setActiveFilter("bike")}
 							style={{
 								...styles.chip,
-								...(activeFilter === "bike" && styles.chipActiveTeal),
+								...(activeFilter === "bike" && styles.chipActive),
 							}}
+							aria-pressed={activeFilter === "bike"}
 						>
 							Bike-friendly
 						</button>
@@ -188,8 +190,9 @@ export default function ParkSearch() {
 							onClick={() => setActiveFilter("playground")}
 							style={{
 								...styles.chip,
-								...(activeFilter === "playground" && styles.chipActiveTeal),
+								...(activeFilter === "playground" && styles.chipActive),
 							}}
+							aria-pressed={activeFilter === "playground"}
 						>
 							Playground
 						</button>
@@ -197,8 +200,9 @@ export default function ParkSearch() {
 							onClick={() => setActiveFilter("all")}
 							style={{
 								...styles.chip,
-								...(activeFilter === "all" && styles.chipActiveGray),
+								...(activeFilter === "all" && styles.chipActive),
 							}}
+							aria-pressed={activeFilter === "all"}
 						>
 							All
 						</button>
@@ -307,15 +311,12 @@ const styles = {
 		fontWeight: 600,
 		cursor: "pointer",
 	},
-	chipActiveTeal: {
+	// single active style for ALL filters
+	chipActive: {
 		background: "#0E7C86",
 		color: "#fff",
 		borderColor: "#0E7C86",
-	},
-	chipActiveGray: {
-		background: "#e5e7eb",
-		color: "#111",
-		borderColor: "#e5e7eb",
+		boxShadow: "0 0 0 2px rgba(14,124,134,0.18)",
 	},
 
 	// cards
