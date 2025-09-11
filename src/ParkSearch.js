@@ -1,26 +1,18 @@
-// ParkSearch.js
-import { useMemo, useState } from "react";
+// src/ParkSearch.js
+import { useState } from "react";
+import { parks as defaultParks } from "./parksData";
 
-/* ===== Icons (bottom nav + badges + search) ===== */
+/* icons */
 import HomeIcon from "./images/icons/Home.png";
 import FavoritesIcon from "./images/icons/Heart.png";
 import ParksIcon from "./images/icons/Alps.png";
 import AboutIcon from "./images/icons/Info.png";
-
 import BikeIcon from "./images/icons/Bicycle.png";
 import PicnicIcon from "./images/icons/PicnicTable.png";
 import LakeIcon from "./images/icons/Lake.png";
 import SearchIcon from "./images/icons/Search.png";
 
-/* ===== Park Images (all via imports) ===== */
-import JacksonParkImg from "./images/SearchParks/JacksonPark.png";
-import DieppeGardensImg from "./images/SearchParks/DieppeGardens.png";
-import MaldenParkImg from "./images/SearchParks/MaldenPark.png";
-import MicMacParkImg from "./images/SearchParks/MicMacPark.png";
-import CoventryGardensImg from "./images/SearchParks/CoventryGardensPark.png";
-import GanatchioTrailImg from "./images/SearchParks/GanatchioTrail.png";
-
-/* ---------- Small reusable UI ---------- */
+/* small UI */
 function Badge({ icon, label, bg = "#F1F5F9", color = "#111" }) {
 	return (
 		<span
@@ -65,94 +57,44 @@ function ParkCard({ img, title, border = "#0E7C86", badges = [] }) {
 	);
 }
 
-/* ====================== MAIN SCREEN ====================== */
-export default function ParkSearch() {
-	const [query, setQuery] = useState("");
-	const [activeFilter, setActiveFilter] = useState("all"); // 'all' | 'bike' | 'waterfront' | 'playground'
+/* tag -> badge */
+const tagToBadge = (tag) => {
+	switch (tag) {
+		case "bike":
+			return { icon: BikeIcon, label: "Bike", bg: "#F8E1B2" };
+		case "picnic":
+			return { icon: PicnicIcon, label: "Picnic", bg: "#DCEFE4" };
+		case "waterfront":
+			return { icon: LakeIcon, label: "Waterfront", bg: "#C9E0E6" };
+		case "playground":
+			return { label: "Playground", bg: "#EEE" };
+		case "scenic":
+			return { label: "Scenic", bg: "#EEE" };
+		default:
+			return null;
+	}
+};
 
-	// Source of truth (labels drive filters)
-	const parks = useMemo(
-		() => [
-			{
-				title: "Jackson Park",
-				img: JacksonParkImg,
-				border: "#0E7C86",
-				labels: ["bike", "picnic"],
-				badges: [
-					{ icon: BikeIcon, label: "Bike", bg: "#F8E1B2" },
-					{ icon: PicnicIcon, label: "Picnic", bg: "#DCEFE4" },
-				],
-			},
-			{
-				title: "Dieppe Gardens",
-				img: DieppeGardensImg,
-				border: "#E5A83C",
-				labels: ["bike", "picnic", "waterfront"],
-				badges: [
-					{ icon: BikeIcon, label: "Bike", bg: "#F8E1B2" },
-					{ icon: PicnicIcon, label: "Picnic", bg: "#DCEFE4" },
-					{ icon: LakeIcon, label: "Waterfront", bg: "#C9E0E6" },
-				],
-			},
-			{
-				title: "Malden Park",
-				img: MaldenParkImg,
-				border: "#6B8F3D",
-				labels: ["bike", "picnic", "playground"],
-				badges: [
-					{ icon: BikeIcon, label: "Bike", bg: "#F8E1B2" },
-					{ icon: PicnicIcon, label: "Picnic", bg: "#DCEFE4" },
-				],
-			},
-			{
-				title: "Mic Mac Park",
-				img: MicMacParkImg,
-				border: "#0E7C86",
-				labels: ["bike", "playground", "picnic"],
-				badges: [
-					{ icon: BikeIcon, label: "Bike", bg: "#F8E1B2" },
-					{ icon: PicnicIcon, label: "Picnic", bg: "#DCEFE4" },
-				],
-			},
-			{
-				title: "Coventry Gardens",
-				img: CoventryGardensImg,
-				border: "#E5A83C",
-				labels: ["waterfront", "picnic"],
-				badges: [
-					{ icon: LakeIcon, label: "Waterfront", bg: "#C9E0E6" },
-					{ icon: PicnicIcon, label: "Picnic", bg: "#DCEFE4" },
-				],
-			},
-			{
-				title: "Ganatchio Trail",
-				img: GanatchioTrailImg,
-				border: "#6B8F3D",
-				labels: ["bike", "waterfront"],
-				badges: [{ icon: BikeIcon, label: "Bike", bg: "#F8E1B2" }],
-			},
-		],
-		[]
-	);
+/* ====================== MAIN SCREEN ====================== */
+export default function ParkSearch({ parks = defaultParks, onSelect }) {
+	const [query, setQuery] = useState("");
+	const [activeFilter, setActiveFilter] = useState("all"); // all | bike | waterfront | playground
 
 	const filtered = parks.filter((p) => {
 		const q = query.trim().toLowerCase();
 		const matchText = !q || p.title.toLowerCase().includes(q);
 		const matchFilter =
-			activeFilter === "all" ? true : p.labels.includes(activeFilter);
+			activeFilter === "all" ? true : p.tags.includes(activeFilter);
 		return matchText && matchFilter;
 	});
 
 	return (
 		<div style={styles.page}>
 			<div style={styles.phone}>
-				{/* Header */}
 				<h1 style={styles.title}>WindEss Rides&Parks</h1>
 				<p style={styles.subtitle}>Windsor & Essex Cycling + Parks Explorer</p>
 
-				{/* Scrollable content */}
 				<div style={styles.content}>
-					{/* Search with icon */}
 					<div style={styles.searchWrap}>
 						<img src={SearchIcon} alt="" style={styles.searchIcon} />
 						<input
@@ -164,7 +106,6 @@ export default function ParkSearch() {
 						/>
 					</div>
 
-					{/* Filters (all use the same active style) */}
 					<div style={styles.filters}>
 						<button
 							onClick={() => setActiveFilter("waterfront")}
@@ -208,13 +149,26 @@ export default function ParkSearch() {
 						</button>
 					</div>
 
-					{/* Cards list */}
-					{filtered.map((p) => (
-						<ParkCard key={p.title} {...p} />
-					))}
+					{filtered.map((p) => {
+						const badges = p.tags.map(tagToBadge).filter(Boolean);
+						return (
+							<button
+								key={p.id}
+								onClick={() => onSelect && onSelect(p)}
+								style={{ all: "unset", display: "block", cursor: "pointer" }}
+								aria-label={`Open ${p.title} details`}
+							>
+								<ParkCard
+									img={p.img}
+									title={p.title}
+									border={p.border}
+									badges={badges}
+								/>
+							</button>
+						);
+					})}
 				</div>
 
-				{/* Bottom Nav */}
 				<div style={styles.nav}>
 					<button style={styles.navBtn}>
 						<img src={HomeIcon} alt="Home" style={styles.navIcon} />
@@ -242,7 +196,7 @@ export default function ParkSearch() {
 	);
 }
 
-/* ----------------- Styles ----------------- */
+/* ----------------- Styles (unchanged) ----------------- */
 const styles = {
 	page: {
 		minHeight: "100vh",
@@ -265,14 +219,7 @@ const styles = {
 	},
 	title: { fontSize: 28, fontWeight: 800, margin: "32px 16px 2px" },
 	subtitle: { margin: "0 16px 16px", color: "#4b5563" },
-
-	content: {
-		flex: 1,
-		overflowY: "auto",
-		padding: "0 16px 96px", // keep content above nav
-	},
-
-	// search (shorter with icon)
+	content: { flex: 1, overflowY: "auto", padding: "0 16px 96px" },
 	searchWrap: {
 		width: "100%",
 		position: "relative",
@@ -300,8 +247,6 @@ const styles = {
 		fontSize: 16,
 		boxShadow: "0 1px 3px rgba(0,0,0,0.06)",
 	},
-
-	// chips
 	filters: { display: "flex", gap: 10, marginBottom: 16, flexWrap: "wrap" },
 	chip: {
 		padding: "8px 14px",
@@ -311,15 +256,12 @@ const styles = {
 		fontWeight: 600,
 		cursor: "pointer",
 	},
-	// single active style for ALL filters
 	chipActive: {
 		background: "#0E7C86",
 		color: "#fff",
 		borderColor: "#0E7C86",
 		boxShadow: "0 0 0 2px rgba(14,124,134,0.18)",
 	},
-
-	// cards
 	card: {
 		display: "flex",
 		gap: 12,
@@ -343,8 +285,6 @@ const styles = {
 		background: "#e5e7eb",
 	},
 	cardTitle: { margin: 0, fontSize: 22, fontWeight: 800 },
-
-	// bottom nav
 	nav: {
 		position: "absolute",
 		bottom: 0,
