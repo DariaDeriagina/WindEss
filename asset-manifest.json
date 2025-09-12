@@ -1,0 +1,28 @@
+{
+  "files": {
+    "main.css": "/WindEss/static/css/main.323d7611.css",
+    "main.js": "/WindEss/static/js/main.934242ac.js",
+    "static/js/453.ced2fe6f.chunk.js": "/WindEss/static/js/453.ced2fe6f.chunk.js",
+    "static/media/Tree.png": "/WindEss/static/media/Tree.40d9c2f6a2fb7a8277de.png",
+    "static/media/DieppeGardens.png": "/WindEss/static/media/DieppeGardens.d2de4dc0cbfc5aac02ab.png",
+    "static/media/MaldenPark.png": "/WindEss/static/media/MaldenPark.3406d1dd1defa5d18323.png",
+    "static/media/JacksonPark.png": "/WindEss/static/media/JacksonPark.ba1b3f1b4a9a32b0338a.png",
+    "static/media/Bike.png": "/WindEss/static/media/Bike.abd97960f205dac697ee.png",
+    "static/media/CoventryGardensPark.png": "/WindEss/static/media/CoventryGardensPark.8cbdf500fe0814653ddc.png",
+    "static/media/GanatchioTrail.png": "/WindEss/static/media/GanatchioTrail.64d59dd2da7bf6991ef6.png",
+    "static/media/MicMacPark.png": "/WindEss/static/media/MicMacPark.bb81b472a35ba45194cd.png",
+    "static/media/LogoWindEss.png": "/WindEss/static/media/LogoWindEss.6e3177f8856798ac2f5e.png",
+    "static/media/Alps.png": "/WindEss/static/media/Alps.95925fe660f4dadc3f55.png",
+    "static/media/Info.png": "/WindEss/static/media/Info.49b9508102255fe8e2af.png",
+    "static/media/Bulb.png": "/WindEss/static/media/Bulb.b01b1516cb962962d2c0.png",
+    "static/media/Heart.png": "/WindEss/static/media/Heart.9aef22bb220e5b73c158.png",
+    "index.html": "/WindEss/index.html",
+    "main.323d7611.css.map": "/WindEss/static/css/main.323d7611.css.map",
+    "main.934242ac.js.map": "/WindEss/static/js/main.934242ac.js.map",
+    "453.ced2fe6f.chunk.js.map": "/WindEss/static/js/453.ced2fe6f.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.323d7611.css",
+    "static/js/main.934242ac.js"
+  ]
+}
